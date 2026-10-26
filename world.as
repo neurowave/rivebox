@@ -87,6 +87,9 @@ function col(c: Rgb, k: f64): Rgb {
 // ---------------------------------------------------------------- constants
 const PI: f64 = Math.PI;
 const FOV: f64 = 0.74;
+// section screens: full at <= SCREEN_FADE0 screens from the focused one, gone at SCREEN_FADE1
+const SCREEN_FADE0: f64 = 1.25;
+const SCREEN_FADE1: f64 = 2.0;
 // start screen <-> dashboard flight: seconds, lift-off curve, lens widening at peak speed
 // (fraction of FOV), motion blur shutter (0.5 = 180 deg), streak cap (uv) and radial zoom blur
 const DIVE_S: f64 = 3.2;
@@ -1951,7 +1954,7 @@ export class World extends Layout {
         // in as the dive starts, well before the camera punches through it
         {
             let want: f64 = this.tqTo == 1 ? 0 : 1;
-            let rate: f64 = want < this.hexVis ? 12 : 2.5;
+            let rate: f64 = want < this.hexVis ? 5 : 2.5;
             this.hexVis = lerp(this.hexVis, want, 1 - Math.exp(-dt * rate));
             if (Math.abs(this.hexVis - want) < 0.002) {
                 this.hexVis = want;
@@ -2059,7 +2062,7 @@ export class World extends Layout {
         if (ss != null) ss.inst.advance(dt);
         for (let i = 0; i < this.secList.length; i++) {
             let sf = this.secList[i];
-            sf.live = this.s > 0.02 && Math.abs(<f64>i - this.sec) < 1.6;
+            sf.live = this.s > 0.02 && Math.abs(<f64>i - this.sec) < SCREEN_FADE1;
             sf.inst.advance(dt);
         }
         for (let i = 0; i < this.cases.length; i++) {
@@ -2189,7 +2192,10 @@ export class World extends Layout {
         let ak = focus > 0.5 ? this.arrK("screen", 1) : 1;
         m = m * tr(0, 0, -SCREEN_R) * rotX((1 - ak) * -0.22)
             * scl(0.94 + 0.06 * ak, 0.94 + 0.06 * ak, 1) * tr(0, 0, SCREEN_R);
-        M_ALPHA = clamp((s - 0.15) * 2.2, 0, 1) * lerp(0.28, 1, focus);
+        // neighbours further along the arc fade out (and stop rendering) instead of popping
+        let far = Math.abs((fi - 1) - this.sec);
+        let fade = 1 - smooth(clamp((far - SCREEN_FADE0) / (SCREEN_FADE1 - SCREEN_FADE0), 0, 1));
+        M_ALPHA = clamp((s - 0.15) * 2.2, 0, 1) * lerp(0.28, 1, focus) * fade;
         return m;
     }
 
@@ -3005,7 +3011,8 @@ export class World extends Layout {
             f[22] = up.z;
             f[23] = 0;
             f[24] = <f32>Math.min(3, Math.abs(this.sv) * 0.6 + boost * 0.4);
-            f[25] = 0;
+            // NDC units per pixel of the 3D target (the spark shader's minimum size)
+            f[25] = <f32>(2 / Math.max(1, this.sizeY * this.rs));
             f[26] = 0;
             f[27] = 0;
             partUbo.update(0, b, 112, 0);

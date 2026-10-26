@@ -13,11 +13,18 @@ struct FOut { @location(0) c: vec4<f32>, @location(1) d: vec4<f32> };
     var corners = array<vec2<f32>, 6>(vec2(-1.0, -1.0), vec2(1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, -1.0), vec2(1.0, 1.0), vec2(-1.0, 1.0));
     let q = corners[vi];
     let stretch = 1.0 + c.misc.x;
-    let wp = ip.xyz + c.right.xyz * q.x * ip.w * stretch + c.up.xyz * q.y * ip.w;
+    // sub-pixel sparks alias into single-pixel twinkles: keep each one at least
+    // ~1.6 px across on screen and dim it by the area it gained (same light)
+    let cc = c.vp * vec4(ip.xyz, 1.0);
+    let rNdc = ip.w * length((c.vp * vec4(c.up.xyz, 0.0)).xy) / max(cc.w, 1e-4);
+    let rMin = c.misc.y * 0.8;
+    let grow = max(1.0, rMin / max(rNdc, 1e-6));
+    let r = ip.w * grow;
+    let wp = ip.xyz + c.right.xyz * q.x * r * stretch + c.up.xyz * q.y * r;
     var o: V;
     o.pos = c.vp * vec4(wp, 1.0);
     o.q = vec2(q.x, q.y * stretch);
-    o.col = ic;
+    o.col = vec4(ic.rgb, ic.a / (grow * grow));
     o.dist = o.pos.w;
     return o;
 }

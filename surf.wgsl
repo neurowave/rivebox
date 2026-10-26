@@ -366,8 +366,16 @@ fn shade(i: VOut, ff: bool) -> vec4<f32> {
         let mag = max((1.0 / 150.0) / fwe, 1.0);
         let wk = pow(mag, -0.85);
         let ew = u.params.x * 0.5 * wk;
-        let edge = 1.0 - smoothstep(ew, ew + fwe * 1.5, de);
-        let halo = exp(-de / max(u.params.x * 2.5 * wk, 1e-4)) * 0.35;
+        // anti-aliased line: at least ~1.5 px wide (0.75 px per facet side), a 1 px box
+        // filter across its edge, and thinner lines get dimmer instead of breaking
+        // into stair steps and beads (same light per unit length at any size)
+        let ewMin = fwe * 0.75;
+        let ewD = max(ew, ewMin);
+        let edge = (1.0 - smoothstep(ewD - fwe * 0.5, ewD + fwe * 0.5, de)) * min(1.0, ew / ewMin);
+        // the halo gets the same treatment: never narrower than ~1.5 px
+        let hw = u.params.x * 2.5 * wk;
+        let hwD = max(hw, fwe * 1.5);
+        let halo = exp(-de / max(hwD, 1e-4)) * 0.35 * min(1.0, hw / (fwe * 1.5));
         let fid = hash3(floor(n * 41.0 + 0.5));
         let pulse = 0.5 + 0.5 * sin(t * (1.3 + fid * 2.0) + fid * 40.0);
         let flick = 1.0 - u.mode.w * step(0.93, hash2(vec2(floor(t * 12.0), fid * 97.0)));
