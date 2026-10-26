@@ -1,0 +1,8 @@
+name: rivebox
+main: RiveBox
+scripting: wasm
+exclude:
+  - build
+logs:
+  file: build/rive.log
+  problems: build/problems.log
