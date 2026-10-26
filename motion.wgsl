@@ -87,7 +87,7 @@ fn velAt(uv: vec2<f32>) -> vec2<f32> {
 // long zoom streaks, so thin bright edges show as discrete copies that crawl
 // from frame to frame. This short blur along the same velocity spans exactly
 // one pass-1 tap gap, turning N taps into N x 8 (the "blur the blur" trick).
-@fragment fn fs_motion2(i: V) -> @location(0) vec4<f32> {
+@fragment fn fs_motionGap(i: V) -> @location(0) vec4<f32> {
     let uv = i.uv;
     let c0 = textureSampleLevel(src, smp, uv, 0.0);
     let vel = velAt(uv);

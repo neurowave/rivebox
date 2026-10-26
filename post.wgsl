@@ -159,7 +159,7 @@ fn decA(d: vec4<f32>) -> f32 {
 }
 
 // separable tile max: r = max near CoC of A, g = max |CoC| of B
-@fragment fn fs_doftile1(i: V) -> @location(0) vec4<f32> {
+@fragment fn fs_doftileA(i: V) -> @location(0) vec4<f32> {
     let n = i32(ceil(p.b.z)) + 1;
     var m = vec2(0.0);
     for (var k = -n; k <= n; k++) {
@@ -170,7 +170,7 @@ fn decA(d: vec4<f32>) -> f32 {
     }
     return vec4(m, 0.0, 1.0);
 }
-@fragment fn fs_doftile2(i: V) -> @location(0) vec4<f32> {
+@fragment fn fs_doftileB(i: V) -> @location(0) vec4<f32> {
     let n = i32(ceil(p.b.z)) + 1;
     var m = vec2(0.0);
     for (var k = -n; k <= n; k++) {

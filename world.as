@@ -38,7 +38,7 @@ import { Mat2D } from "rive/mat2d";
 import { Mat4 } from "rive/mat4";
 import { Vector } from "rive/vector";
 import { Color } from "rive/color";
-import { PointerEvent, KeyboardEvent } from "rive/events";
+import { PointerEvent, KeyboardEvent, ScrollEvent } from "rive/events";
 import { clock, date } from "rive/os";
 import {
     GPUBindGroup, GPUBindGroupLayout, GPUBindGroupSampler, GPUBindGroupTexture, GPUBindGroupUBO, GPUBlendState,
@@ -636,8 +636,6 @@ let R_WHICH: string = "";
 // ---------------------------------------------------------------- the layout
 export class World extends Layout {
     @input hub: Artboard? = null;
-    @input core: Artboard? = null;
-    @input ticker: Artboard? = null;
     @input games: Artboard? = null;
     @input music: Artboard? = null;
     @input memory: Artboard? = null;
@@ -1039,7 +1037,7 @@ export class World extends Layout {
             if (ml != null) {
                 this.motLayout = ml;
                 this.pMotion = this.fullPipe(mot, ml, "fs_motion", HDR);
-                this.pMotion2 = this.fullPipe(mot, ml, "fs_motion2", HDR);
+                this.pMotion2 = this.fullPipe(mot, ml, "fs_motionGap", HDR);
                 this.pCopy = this.fullPipe(mot, ml, "fs_copy", HDR);
             }
         }
@@ -1124,8 +1122,8 @@ export class World extends Layout {
         this.pDofDown = this.fullPipe(post, postLayout, "fs_dofdown", HDR);
         let P = this.dofP;
         P.set("downB", this.fullPipe(post, postLayout, "fs_dofdownB", HDR, 2));
-        P.set("tile1", this.fullPipe(post, postLayout, "fs_doftile1", HDR));
-        P.set("tile2", this.fullPipe(post, postLayout, "fs_doftile2", HDR));
+        P.set("tile1", this.fullPipe(post, postLayout, "fs_doftileA", HDR));
+        P.set("tile2", this.fullPipe(post, postLayout, "fs_doftileB", HDR));
         P.set("blurA", this.fullPipe(post, postLayout, "fs_dofblur", HDR, 2));
         P.set("blurB", this.fullPipe(post, postLayout, "fs_dofblurB", HDR, 2));
         P.set("tent", this.fullPipe(post, postLayout, "fs_doftent", HDR));
@@ -3325,6 +3323,18 @@ export class World extends Layout {
     override pointerExit(event: PointerEvent): void {
         // mouse left the window: drift the tilt back to centre
         this.pointerT = Vector.xy(0, 0);
+    }
+
+    // mouse wheel / trackpad: scroll the list on the 3D screen under the pointer
+    override pointerScroll(event: ScrollEvent): void {
+        this.route(event.position);
+        let inst = R_INST;
+        if (inst != null) {
+            let fwd = new ScrollEvent(event.id, R_LP, event.delta, event.phase, event.precise, event.timeStamp);
+            if (inst.pointerScroll(fwd) != 0) {
+                event.hit();
+            }
+        }
     }
 
     override pointerUp(event: PointerEvent): void {

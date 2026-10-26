@@ -2,7 +2,12 @@ name: rivebox
 main: RiveBox
 scripting: wasm
 exclude:
-  - build
+  - gen.py
+  - lib.py
+  - rml.py
+  - README.md
+  - LICENSE
+  - licenses
 logs:
   file: build/rive.log
   problems: build/problems.log

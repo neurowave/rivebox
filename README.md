@@ -40,13 +40,20 @@ Tested with Rive CLI 1.8.0 and 1.9 previews.
 | Enter / Space / pad confirm | open section · play game · toggle switch · edit player name |
 | Esc / Backspace / pad back | back to hub |
 | Mouse | click any 3D menu panel, list row or switch (ray-cast to artboard UVs) |
+| Wheel / trackpad | scroll the list on the screen under the pointer |
 | Settings › Player name | type a new player name (real TextInput, two-way bound) |
+
+## Embedding
+
+On a web page, load the `.riv` with `@rive-app/webgl2` and `enableGPUCanvas: true` (the 3D is a GPU canvas),
+leave `useOffscreenRenderer` off, and set `autoBind: true` so the state machine gets its view model. Keys
+reach the scene once the canvas has focus (a click).
 
 ## What lives where
 
 - `scene.rml`: every artboard, component, view model, list, state machine, animation, focus rule and listener.
   It is the hand-owned source of truth: edit it in place (or in the Rive Editor).
-  - Hub menu, core skin, ticker and case art.
+  - Hub menu and case art.
   - Games, Music, Memory and Settings screens.
   - Game and track rows, used as ArtboardComponentList items.
   - Boot, launch and section transitions.
