@@ -16342,7 +16342,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:700" name="Rocket Squadron" exports="true">
@@ -16383,7 +16383,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:701" name="Glassline Gp" exports="true">
@@ -16424,7 +16424,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:702" name="Lantern Oath" exports="true">
@@ -16465,7 +16465,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:703" name="Brass Corridor" exports="true">
@@ -16506,7 +16506,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:704" name="Spraywave" exports="true">
@@ -16547,7 +16547,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:705" name="Kiloton Stride" exports="true">
@@ -16588,7 +16588,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:706" name="Sundial Run" exports="true">
@@ -16629,7 +16629,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:707" name="Prism Wars" exports="true">
@@ -16670,7 +16670,7 @@
             <DataBindContext sourcePathIds="0:40-0:433" propertyKey="575" twoWay="true"/>
         </ViewModelInstanceNumber>
         <ViewModelInstanceTrigger viewModelPropertyId="0:769">
-            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:431" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
 </ViewModel>
@@ -16708,7 +16708,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:720" name="Boot Sequence" exports="true">
@@ -16733,7 +16733,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:721" name="Amber Core" exports="true">
@@ -16758,7 +16758,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:722" name="State Machine" exports="true">
@@ -16783,7 +16783,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:723" name="Vector Feedback" exports="true">
@@ -16808,7 +16808,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:724" name="Blend State" exports="true">
@@ -16833,7 +16833,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:725" name="Sixty Fps" exports="true">
@@ -16858,7 +16858,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:726" name="Data Binding" exports="true">
@@ -16883,7 +16883,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
     <ViewModelInstance id="0:727" name="Artboard 0" exports="true">
@@ -16908,7 +16908,7 @@
             <DataBindContext sourcePathIds="0:40-0:430" propertyKey="561" twoWay="true"/>
         </ViewModelInstanceString>
         <ViewModelInstanceTrigger viewModelPropertyId="0:785">
-            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" twoWay="true"/>
+            <DataBindContext sourcePathIds="0:40-0:432" propertyKey="687" direction="true"/>
         </ViewModelInstanceTrigger>
     </ViewModelInstance>
 </ViewModel>
