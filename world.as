@@ -87,6 +87,15 @@ function col(c: Rgb, k: f64): Rgb {
 // ---------------------------------------------------------------- constants
 const PI: f64 = Math.PI;
 const FOV: f64 = 0.74;
+// start screen <-> dashboard flight: seconds, lift-off curve, lens widening at peak speed
+// (fraction of FOV), motion blur shutter (0.5 = 180 deg), streak cap (uv) and radial zoom blur
+const DIVE_S: f64 = 3.2;
+const PULL_S: f64 = 2.0;
+const DIVE_LIFT: f64 = 0.7;
+const DIVE_FOV: f64 = 0.3;
+const DIVE_SHUTTER: f64 = 1.0;
+const DIVE_MAXLEN: f64 = 0.07;
+const DIVE_ZOOMBLUR: f64 = 0.06;
 const MOTION_BLUR: bool = true;
 const DOF: bool = true;
 const UBO: u32 = 288;
@@ -1965,7 +1974,7 @@ export class World extends Layout {
             this.tqTo = tzT;
             this.tqClock = 0;
             let span = Math.max(0.3, Math.abs(tzT - this.tq));
-            this.tqDur = (tzT == 0 ? 4.2 : 2.3) * span;
+            this.tqDur = (tzT == 0 ? DIVE_S : PULL_S) * span;
         }
         this.tqClock += dt;
         {
@@ -1974,12 +1983,13 @@ export class World extends Layout {
             // pull-out: slow lift-off, long glide out to the far vantage
             let ez: f64;
             if (this.tqTo == 0) {
-                let w = Math.pow(x, 0.85);
+                let w = Math.pow(x, DIVE_LIFT);
                 ez = w * w * w * (w * (w * 6 - 15) + 10);
             } else {
                 // pull-out: Beta(3,5) CDF: zero velocity AND zero acceleration at lift-off
+                // Beta(2,4) CDF: starts moving at once, long glide out to the far vantage
                 let u = 1 - x;
-                ez = 1 - (Math.pow(u, 7) + 7 * x * Math.pow(u, 6) + 21 * x * x * Math.pow(u, 5));
+                ez = 1 - (Math.pow(u, 5) + 5 * x * Math.pow(u, 4));
             }
             // lens bell for the flight: 0 at both ends with zero slope, peaking a
             // little before the middle. Drives the wide FOV + zoom blur, so the
@@ -2437,7 +2447,7 @@ export class World extends Layout {
         // so it is exactly the normal lens at rest at either end)
         let zoomK = this.flightBell;
         this.zoomK = zoomK;
-        let dive = zoomK * 0.85;
+        let dive = zoomK * DIVE_FOV;
         this.proj = Mat4.perspective(<f32>Math.min(FOV * (1 + this.fovK * 0.02 + lift * 0.03 + dive), 1.75), <f32>aspect,
             <f32>0.1, 260);
         this.viewProj = this.proj * this.view;
@@ -3123,8 +3133,8 @@ export class World extends Layout {
             // shutter opens up during the start-screen dive (and the Esc pull-out):
             // 180 deg normally, up to a ~3x longer streak at peak dive speed
             let diveK = this.flightBell;
-            let shutter = lerp(0.5, 4.0, diveK);
-            let maxLen = lerp(0.05, 0.16, diveK);
+            let shutter = lerp(0.5, DIVE_SHUTTER, diveK);
+            let maxLen = lerp(0.05, DIVE_MAXLEN, diveK);
             // zoom blur: radial streaks out from the screen centre while diving
             // (on top of the reprojected camera motion), gone at rest
             let zk = this.zoomK;
@@ -3132,16 +3142,16 @@ export class World extends Layout {
             f[32] = ey.x;
             f[33] = ey.y;
             f[34] = ey.z;
-            f[35] = <f32>(zk * 0.32);
+            f[35] = <f32>(zk * DIVE_ZOOMBLUR);
             f[36] = <f32>shutter;
-            f[37] = <f32>lerp(maxLen, 0.38, zk);
+            f[37] = <f32>lerp(maxLen, DIVE_MAXLEN, zk);
             f[38] = <f32>(1 / <f64>gpu.width);
             f[39] = <f32>(1 / <f64>gpu.height);
             mu.update(0, b, 160, 0);
             // long streaks (dive / pull-out zoom) get the gap-fill second pass;
             // at rest and for ordinary camera moves one pass is enough
             let pm2 = this.pMotion2, mb2 = this.motionBind2, hm = this.hdrM;
-            if (pm2 != null && mb2 != null && hm != null && (diveK > 0.002 || zk > 0.002)) {
+            if (DIVE_MAXLEN > 0.1 && pm2 != null && mb2 != null && hm != null && (diveK > 0.002 || zk > 0.002)) {
                 this.fullscreen(gpu, hm, pm, mb, gpu.width, gpu.height, false);
                 this.fullscreen(gpu, hdr, pm2, mb2, gpu.width, gpu.height, false);
             } else {
