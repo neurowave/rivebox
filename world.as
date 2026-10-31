@@ -1552,10 +1552,6 @@ export class World extends Layout {
     override init(context: Context): bool {
         this.context = context;
         this.gpu = context.gpuCanvas();
-        // the host may call resize() before init(); size the canvas now
-        if (this.sizeX > 0) {
-            this.resize(this.sizeX, this.sizeY, this.scale);
-        }
         return true;
     }
 
@@ -1591,11 +1587,18 @@ export class World extends Layout {
             [new GPUBindGroupTexture(1, src), new GPUBindGroupTexture(3, dist)], [new GPUBindGroupSampler(2, smp)]);
     }
 
+    // GPU work waits for advance(): the threaded web runtime drops GPU canvas sizes set inside resize()
+    sizePending: bool = false;
+
     override resize(width: f64, height: f64, scale: f64): void {
         // Luau sizes arrive as an f32 vector; keep the same precision
         this.sizeX = <f64><f32>width;
         this.sizeY = <f64><f32>height;
         this.scale = scale;
+        this.sizePending = true;
+    }
+
+    applySize(): void {
         let gpu = this.gpu;
         if (gpu == null) {
             return;
@@ -1760,9 +1763,9 @@ export class World extends Layout {
     }
 
     override advance(dt0: f64): bool {
-        let g = this.gpu;
-        if (g != null && g.width == 0 && this.sizeX > 0) {
-            this.resize(this.sizeX, this.sizeY, this.scale);
+        if (this.sizePending) {
+            this.sizePending = false;
+            this.applySize();
         }
         // While the geometry is still being built (budgeted across calls), the
         // frames' dts are recorded; once ready they are replayed through step()
