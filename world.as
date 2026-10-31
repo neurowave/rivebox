@@ -1552,6 +1552,10 @@ export class World extends Layout {
     override init(context: Context): bool {
         this.context = context;
         this.gpu = context.gpuCanvas();
+        // the host may call resize() before init(); size the canvas now
+        if (this.sizeX > 0) {
+            this.resize(this.sizeX, this.sizeY, this.scale);
+        }
         return true;
     }
 
@@ -1756,6 +1760,10 @@ export class World extends Layout {
     }
 
     override advance(dt0: f64): bool {
+        let g = this.gpu;
+        if (g != null && g.width == 0 && this.sizeX > 0) {
+            this.resize(this.sizeX, this.sizeY, this.scale);
+        }
         // While the geometry is still being built (budgeted across calls), the
         // frames' dts are recorded; once ready they are replayed through step()
         // in order (a few per call), so every spring, timeline and artboard ends
